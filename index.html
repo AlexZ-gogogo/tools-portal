@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tools Portal - 工具门户</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <header class="top-nav">
+        <div class="nav-left">
+            <button class="hamburger-btn" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="brand">
+                <div class="brand-icon"><i class="fas fa-cubes"></i></div>
+                <span class="brand-text">Tools Portal</span>
+            </div>
+        </div>
+        <div class="nav-center">
+            <div class="search-box">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" placeholder="搜索工具、服务和应用 (Ctrl+/)" id="searchInput">
+                <kbd class="search-shortcut">Ctrl+/</kbd>
+            </div>
+        </div>
+        <div class="nav-right">
+            <button class="nav-icon-btn" title="全屏" onclick="toggleFullscreen()">
+                <i class="fas fa-expand"></i>
+            </button>
+            <button class="nav-icon-btn" title="主题" onclick="toggleTheme()">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </header>
+
+    <div class="main-layout">
+        <!-- Left Sidebar -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-menu">
+                <a href="#all" class="sidebar-item active" data-filter="all" data-tooltip="全部">
+                    <i class="fas fa-home"></i>
+                    <span class="sidebar-label">全部</span>
+                </a>
+                <a href="#ai" class="sidebar-item" data-filter="ai" data-tooltip="AI 工具">
+                    <i class="fas fa-brain"></i>
+                    <span class="sidebar-label">AI 工具</span>
+                </a>
+                <a href="#azure" class="sidebar-item" data-filter="azure" data-tooltip="Azure 工具">
+                    <i class="fas fa-cloud"></i>
+                    <span class="sidebar-label">Azure 工具</span>
+                </a>
+                <a href="#tool" class="sidebar-item" data-filter="tool" data-tooltip="效率工具">
+                    <i class="fas fa-wrench"></i>
+                    <span class="sidebar-label">效率工具</span>
+                </a>
+            </div>
+            <div class="sidebar-bottom">
+                <div class="sidebar-count">
+                    <span class="sidebar-label" id="appCount">共 4 个工具</span>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="content">
+            <!-- Welcome Section -->
+            <section class="welcome-section">
+                <div class="welcome-text">
+                    <h1>Tools Portal 🚀</h1>
+                    <p>内部工具与服务集合 · 点击卡片直达对应平台</p>
+                </div>
+                <div class="welcome-date">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span id="currentDate"></span>
+                </div>
+            </section>
+
+            <!-- Category Filter Tabs -->
+            <section class="filter-section">
+                <div class="filter-tabs" id="filterTabs">
+                    <button class="filter-tab active" data-filter="all">
+                        <i class="fas fa-th-large"></i> 全部
+                        <span class="filter-count" id="countAll">4</span>
+                    </button>
+                    <button class="filter-tab" data-filter="ai">
+                        <i class="fas fa-brain"></i> AI 工具
+                        <span class="filter-count" id="countAi">1</span>
+                    </button>
+                    <button class="filter-tab" data-filter="azure">
+                        <i class="fas fa-cloud"></i> Azure 工具
+                        <span class="filter-count" id="countAzure">2</span>
+                    </button>
+                    <button class="filter-tab" data-filter="tool">
+                        <i class="fas fa-wrench"></i> 效率工具
+                        <span class="filter-count" id="countTool">1</span>
+                    </button>
+                </div>
+                <div class="section-actions">
+                    <button class="view-toggle active" data-view="grid" title="网格视图">
+                        <i class="fas fa-th-large"></i>
+                    </button>
+                    <button class="view-toggle" data-view="list" title="列表视图">
+                        <i class="fas fa-list"></i>
+                    </button>
+                </div>
+            </section>
+
+            <!-- All Applications -->
+            <section class="apps-section">
+                <div class="apps-grid" id="appsGrid">
+                    <!-- App Card 1: AI Image Studio -->
+                    <a href="https://imageai-studio.azurewebsites.net/" target="_blank" rel="noopener noreferrer" class="app-card" data-category="ai">
+                        <div class="app-card-header">
+                            <div class="app-icon ai-icon">
+                                <i class="fas fa-paint-brush"></i>
+                            </div>
+                            <div class="app-badge ai-badge">AI</div>
+                        </div>
+                        <div class="app-card-body">
+                            <h3>AI Image Studio</h3>
+                            <p>AI 智能生图平台，支持文字生成图片、图片编辑等功能</p>
+                        </div>
+                        <div class="app-card-footer">
+                            <span class="app-tag"><i class="fas fa-paint-brush"></i> 图像生成</span>
+                            <span class="app-link-hint"><i class="fas fa-external-link-alt"></i></span>
+                        </div>
+                    </a>
+
+                    <!-- App Card 2: CSP Ticket Tool -->
+                    <a href="https://csp-ticket-tool-pc.azurewebsites.net/" target="_blank" rel="noopener noreferrer" class="app-card" data-category="azure">
+                        <div class="app-card-header">
+                            <div class="app-icon azure-icon">
+                                <i class="fas fa-layer-group"></i>
+                            </div>
+                            <div class="app-badge azure-badge">Azure</div>
+                        </div>
+                        <div class="app-card-body">
+                            <h3>订阅配额查询</h3>
+                            <p>查询 Azure 订阅配额层级，快速了解资源配额信息</p>
+                        </div>
+                        <div class="app-card-footer">
+                            <span class="app-tag"><i class="fas fa-search"></i> 配额查询</span>
+                            <span class="app-link-hint"><i class="fas fa-external-link-alt"></i></span>
+                        </div>
+                    </a>
+
+                    <!-- App Card 3: POE Tool -->
+                    <a href="https://poeflowauto.azurewebsites.net/" target="_blank" rel="noopener noreferrer" class="app-card" data-category="tool">
+                        <div class="app-card-header">
+                            <div class="app-icon tool-icon">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <div class="app-badge tool-badge">效率</div>
+                        </div>
+                        <div class="app-card-body">
+                            <h3>POE 工具</h3>
+                            <p>POE 自动化流程工具，提升工作效率</p>
+                        </div>
+                        <div class="app-card-footer">
+                            <span class="app-tag"><i class="fas fa-cogs"></i> 自动化</span>
+                            <span class="app-link-hint"><i class="fas fa-external-link-alt"></i></span>
+                        </div>
+                    </a>
+
+                    <!-- App Card 4: Azure OpenAI Deploy Tool -->
+                    <a href="https://aoai-deploy-tool.azurewebsites.net/" target="_blank" rel="noopener noreferrer" class="app-card" data-category="azure">
+                        <div class="app-card-header">
+                            <div class="app-icon azure-icon">
+                                <i class="fas fa-rocket"></i>
+                            </div>
+                            <div class="app-badge azure-badge">Azure</div>
+                        </div>
+                        <div class="app-card-body">
+                            <h3>AOAI 批量部署</h3>
+                            <p>Azure OpenAI 模型批量部署工具，一键部署多区域模型</p>
+                        </div>
+                        <div class="app-card-footer">
+                            <span class="app-tag"><i class="fas fa-rocket"></i> 部署工具</span>
+                            <span class="app-link-hint"><i class="fas fa-external-link-alt"></i></span>
+                        </div>
+                    </a>
+
+                    <!-- App Card 5: Azure OpenAI Content Filter Manager -->
+                    <a href="https://content-filter-manager.azurewebsites.net/" target="_blank" rel="noopener noreferrer" class="app-card" data-category="azure">
+                        <div class="app-card-header">
+                            <div class="app-icon azure-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <div class="app-badge azure-badge">Azure</div>
+                        </div>
+                        <div class="app-card-body">
+                            <h3>内容筛选器管理</h3>
+                            <p>Azure OpenAI 内容筛选器批量管理工具，高效管理内容安全策略</p>
+                        </div>
+                        <div class="app-card-footer">
+                            <span class="app-tag"><i class="fas fa-shield-alt"></i> 内容筛选</span>
+                            <span class="app-link-hint"><i class="fas fa-external-link-alt"></i></span>
+                        </div>
+                    </a>
+
+                    <!-- App Card 6: New API Gateway -->
+                    <a href="https://newapi-lingyu.azurewebsites.net/" target="_blank" rel="noopener noreferrer" class="app-card" data-category="ai">
+                        <div class="app-card-header">
+                            <div class="app-icon ai-icon">
+                                <i class="fas fa-network-wired"></i>
+                            </div>
+                            <div class="app-badge ai-badge">AI</div>
+                        </div>
+                        <div class="app-card-body">
+                            <h3>New API 网关</h3>
+                            <p>统一大模型接口网关，多模型统一接入与管理平台</p>
+                        </div>
+                        <div class="app-card-footer">
+                            <span class="app-tag"><i class="fas fa-plug"></i> API 网关</span>
+                            <span class="app-link-hint"><i class="fas fa-external-link-alt"></i></span>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Empty State (shown when filter returns no results) -->
+            <section class="empty-state" id="emptyState" style="display: none;">
+                <i class="fas fa-search"></i>
+                <h3>未找到匹配的工具</h3>
+                <p>尝试使用其他关键词搜索，或切换分类查看</p>
+            </section>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+{
+  "name": "tools-portal",
+  "version": "1.0.0",
+  "description": "Tools Portal - Internal tools hub",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  }
+}
