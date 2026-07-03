@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Main cube -->
+  <polygon points="32,8 56,20 56,44 32,56 8,44 8,20" fill="#0078d4" stroke="#106ebe" stroke-width="1.5"/>
+  <!-- Top face -->
+  <polygon points="32,8 56,20 32,32 8,20" fill="#3da0f5"/>
+  <!-- Left face -->
+  <polygon points="8,20 32,32 32,56 8,44" fill="#0078d4"/>
+  <!-- Right face -->
+  <polygon points="56,20 32,32 32,56 56,44" fill="#005a9e"/>
+  <!-- Small cube accent (top-right) -->
+  <polygon points="42,14 54,20 42,26 30,20" fill="#50b0ff" opacity="0.6"/>
+  <polygon points="30,20 42,26 42,38 30,32" fill="#0078d4" opacity="0.6"/>
+  <polygon points="54,20 42,26 42,38 54,32" fill="#005a9e" opacity="0.6"/>
+</svg>
