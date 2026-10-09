@@ -1,0 +1,10 @@
+node_modules/
+.portal-data/
+.env
+.env.*
+!.env.example
+*.log
+coverage/
+test-results/
+dist/
+deploy.zip
