@@ -1,6 +1,6 @@
 # Tools Portal
 
-轻量工具门户：7 个工具直达链接、按工具展示更新日志、管理员上传 Markdown/TXT、手动维护卡片版本，以及历史备份与恢复。前端使用原生 HTML/CSS/JavaScript，后端使用 Node.js / Express。
+轻量工具门户：8 个工具直达链接、按工具展示更新日志、管理员上传 Markdown/TXT、手动维护卡片版本，以及历史备份与恢复。前端使用原生 HTML/CSS/JavaScript，后端使用 Node.js / Express。
 
 ## 功能
 
@@ -147,6 +147,8 @@ ZIP 发布时，App Service 需开启服务端构建安装依赖（例如 `SCM_D
 ## 测试与维护
 
 `npm test` 覆盖日志解析、编码/大小/安全校验、中文文件名、登录权限、跨站请求、同日多版本、合并/覆盖、真实 multipart、并发保护、备份恢复及只读启动。新增工具请编辑 `lib/tools.js`；稳定工具 ID 不要随名称更改。
+
+领驭云服务（`lingyu-service`）跳转到 `https://app-lingyu-prod-fa1d.azurewebsites.net/login`，归入 Azure 分类。初始卡片版本 `1.3.0` 来自用户提供的 2026-10-12 源码包；不代表 Portal 自动检测其线上版本。更新日志初始为空，管理员可以在此工具的管理页独立上传日志、修改版本和恢复备份。可选的 `initialVersion` 仅在没有已保存记录时使用；手动保存的版本（包括清空）优先，不会被源码初始值覆盖。
 
 Markdown 原始 HTML 不执行，外部图片不加载，链接经过安全协议检查。只有明确列出的前端文件公开可访问，后端代码/归档/环境配置不会作为静态资源提供。
 

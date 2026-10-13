@@ -44,7 +44,7 @@ async function fixture(t, extra = {}) {
 
 test('Public reads work; source files, git, archives and unknown APIs are not public', async t => {
   const f = await fixture(t);
-  const tools = await f.call('/api/tools'); assert.equal(tools.status, 200); assert.equal(tools.value.tools.length, 7);
+  const tools = await f.call('/api/tools'); assert.equal(tools.status, 200); assert.equal(tools.value.tools.length, 8);
   const aoai = await f.call('/api/tools/aoai-deploy/changelog'); assert.equal(aoai.value.entries.length, 18); assert.equal(aoai.value.version, '');
   const home = await f.call('/'); assert.equal(home.status, 200); assert.match(home.response.headers.get('content-security-policy'), /script-src 'self'/);
   for (const url of ['/server.js', '/package.json', '/.env', '/.git/config', '/lib/auth.js', '/data/aoai-changelog.md', '/.portal-data/records/aoai-deploy.json']) assert.equal((await f.call(url)).status, 404, url);
@@ -52,6 +52,36 @@ test('Public reads work; source files, git, archives and unknown APIs are not pu
   const unknown = await f.call('/api/not-found'); assert.equal(unknown.status, 404); assert.equal(unknown.value.code, 'NOT_FOUND');
   assert.equal((await f.call('/api/tools/unknown/changelog')).status, 404);
 });
+test('Lingyu service has its own link, initial version and independent editable history', async t => {
+  const f = await fixture(t);
+  const tools = (await f.call('/api/tools')).value.tools;
+  assert.equal(new Set(tools.map(tool => tool.id)).size, tools.length);
+  const tool = tools.find(tool => tool.id === 'lingyu-service');
+  assert.equal(tool.name, '领驭云服务');
+  assert.equal(tool.category, 'azure');
+  assert.equal(tool.url, 'https://app-lingyu-prod-fa1d.azurewebsites.net/login');
+  assert.equal(tool.version, '1.3.0'); assert.equal(tool.logCount, 0);
+  assert.ok(tools.every(tool => new URL(tool.url).protocol === 'https:'));
+  const record = (await f.call('/api/tools/lingyu-service/changelog')).value;
+  assert.equal(record.toolId, tool.id); assert.equal(record.version, '1.3.0');
+  assert.deepEqual(record.entries, []); assert.equal(record.revision, 0);
+  await f.login();
+  const preview = await f.preview(tool.id, '## v1.4.0 - 2026-10-13\n\n独立更新记录。', { date: '2026-10-13', version: '1.4.0' });
+  assert.equal(preview.status, 200);
+  const published = await f.publish(tool.id, preview.value.previewId);
+  assert.equal(published.status, 200); assert.equal(published.value.record.version, '1.4.0');
+  assert.equal(published.value.record.entries.length, 1);
+  const aoai = (await f.call('/api/tools/aoai-deploy/changelog')).value;
+  assert.equal(aoai.entries.length, 18); assert.equal(aoai.version, ''); assert.equal(aoai.revision, 0);
+  const archives = (await f.call(`/api/admin/tools/${tool.id}/archives`)).value.archives;
+  const restored = await f.call(`/api/admin/tools/${tool.id}/restore`, { method: 'POST', data: { archiveId: archives[0].archiveId, revision: 1, confirmed: true } });
+  assert.equal(restored.status, 200); assert.equal(restored.value.version, '1.3.0'); assert.deepEqual(restored.value.entries, []);
+  const cleared = await f.call(`/api/admin/tools/${tool.id}/version`, { method: 'PATCH', data: { version: '', revision: 2 } });
+  assert.equal(cleared.status, 200); assert.equal((await f.call(`/api/tools/${tool.id}/changelog`)).value.version, '');
+  const saved = await new LocalStore(f.dir).read(`records/${tool.id}.json`);
+  assert.equal(saved.value.version, '');
+});
+
 test('Writes require login, valid CSRF, same origin and configured auth', async t => {
   const f = await fixture(t);
   assert.equal((await f.preview()).status, 401);
